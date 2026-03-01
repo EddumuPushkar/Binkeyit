@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import api from "../api/axios";
 import { ImCross } from "react-icons/im";
+import { Link } from "react-router-dom";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 //UserMenuMobile
 
-function Me() {
+function UserMenuMobile() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
@@ -21,10 +23,28 @@ function Me() {
   useEffect(() => {
     if (!id) return;
 
+    const token = localStorage.getItem("accessToken");
+
     api
-      .post("/user/me", { id })
+      .post(
+        "/user/me",
+        { id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
       .then((res) => setEmail(res.data.email))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+
+        if (err.response?.status === 401) {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          navigate("/");
+        }
+      });
   }, [id]);
 
   const logoutHandle = async () => {
@@ -47,7 +67,13 @@ function Me() {
         <ImCross size={18} />
       </button>
 
-      <h1 className="text-xl font-semibold mb-6 text-center">My Account</h1>
+      <h1 className="text-xl font-semibold mb-6 flex items-center">
+        <span>My Account</span>
+
+        <Link to={"/dashboard"} className="ml-2 hover:opacity-40">
+          <FaExternalLinkAlt size={14} />
+        </Link>
+      </h1>
 
       <div className="bg-white rounded-xl p-4 shadow mb-4">
         <p className="text-sm text-gray-500">Signed in as</p>
@@ -68,4 +94,4 @@ function Me() {
   );
 }
 
-export default Me;
+export default UserMenuMobile;

@@ -11,6 +11,7 @@ function Login1() {
   const navigate = useNavigate();
 
   const handleOtp = async () => {
+  
     await api
       .post("/user/login", { email })
       .then((response) => {

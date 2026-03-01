@@ -9,6 +9,10 @@ const SummaryApi = {
     url: "/api/user/verify-otp",
     method: "POST",
   },
+  
 };
 
 export default SummaryApi;
+
+//Note => No use of this file .
+//instead of this file we are using axios.js file for api calls.

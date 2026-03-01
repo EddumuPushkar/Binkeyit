@@ -216,9 +216,11 @@ export async function verifyOtpController(req, res) {
 
 export async function logoutController(req, res) {
   try {
-    console.log("pushkar");
+    // console.log("pushkar");
     const userId = req.userId; // coming from middleware
     console.log("pushkar", userId);
+
+    // console.log("pushkar", userId);
     const cookiesOption = {
       // => This controls security behavior of cookies.
       httpOnly: true,
@@ -307,16 +309,38 @@ export async function refreshController(req, res) {
 }
 export async function userController(req, res) {
   try {
-    const {id} = req.body;
-    const currUser  = await user.findById(id);
-    console.log(currUser);
-    
-    const email = currUser.email
+    const { id } = req.user;
+    console.log("dscdbhds", id);
+    const currUser = await user.findById(id);
+    console.log("hbfsduhbsdh", currUser);
+
+    const email = currUser.email;
     return res.json({
       success: true,
       email: email,
-      error : false
+      error: false,
     });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+export async function checkAdminController(req, res) {
+  try {
+    const { email } = req.body;
+    const currUser = await user.findOne({ email });
+
+    if (currUser && currUser.role === "ADMIN") {
+      return res.json({
+        success: true,
+        isAdmin: true,
+        error: false,
+      });
+    }
   } catch (error) {
     return res.status(500).json({
       message: error.message,

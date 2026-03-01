@@ -21,7 +21,7 @@ function Header() {
   const redirectToLoginPage = () => navigate("/login");
   const redirectToMePage = () => {
     if(isMobile){
-      navigate("/me");
+      navigate("/UserMenuMobile");
     }
   }
 
@@ -80,7 +80,7 @@ function Header() {
 
                       {/* Dropdown */}
                       <div className="absolute right-0 top-10 z-50">
-                        <UserMenu />
+                        <UserMenu closeMenu = {() => setShowMenu(false)}/>
                       </div>
                     </>
                   )}

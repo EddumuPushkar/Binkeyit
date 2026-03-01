@@ -2,6 +2,7 @@
   "dependencies": {
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -10,11 +11,13 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.4",
     "morgan": "^1.10.1",
+    "multer": "^2.0.2",
     "resend": "^6.8.0",
     "sib-api-v3-sdk": "^8.5.0"
   },
   "name": "server",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

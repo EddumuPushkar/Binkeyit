@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-api.interceptors.request.use(
+api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -44,7 +44,7 @@ api.interceptors.request.use(
         return Promise.reject(err);
       }
     }
-     return Promise.reject(error);
+    return Promise.reject(error);
   },
 );
 
