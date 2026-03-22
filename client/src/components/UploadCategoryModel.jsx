@@ -3,14 +3,25 @@ import { ImCross } from "react-icons/im";
 import api from "../api/axios.js";
 import { useNavigate } from "react-router-dom";
 import Loading from "./loading.jsx";
-const UploadCategoryModel = ({ close }) => {
+const UploadCategoryModel = ({ close, name, initialData }) => {
   let isAdmin = "";
+
   const Navigate = useNavigate();
   const [data, setData] = useState({
+    categoryId : "",
     name: "",
     image: "",
   });
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if(initialData){
+      setData({
+        categoryId : initialData._id,
+        name : initialData.name,
+        image : initialData.image,
+      })
+    }
+  }, [initialData]);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +33,8 @@ const UploadCategoryModel = ({ close }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+      console.log("Sending data:", data); // ADD THIS
+
 
     if (!data.name || !data.image) {
       alert("Name and Image required");
@@ -30,8 +43,12 @@ const UploadCategoryModel = ({ close }) => {
 
     try {
       setLoading(true);
-      await api.post("/category/add-category", { data });
-      
+      if (name === "Add Category") {
+        await api.post("/category/add-category", {data} );
+      } else if (name === "Edit Category") {
+        await api.put("/category/edit-category", data );
+      }
+
       close();
       window.location.reload();
     } catch (error) {
@@ -85,7 +102,7 @@ const UploadCategoryModel = ({ close }) => {
 
         {/* Heading */}
         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-          Add Category
+          {name}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">

@@ -4,10 +4,14 @@ import { useEffect } from "react";
 import Loading from "../components/loading";
 import api from "../api/axios";
 
+
 const CategoryPage = () => {
   const [openUploadCategory, setOpenUploadCategory] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const fetchCategory = async () => {
     try {
       setLoading(true);
@@ -21,6 +25,20 @@ const CategoryPage = () => {
       setLoading(false);
     }
   };
+  const deleteCategory = async (categoryId) => {
+    try{
+      setLoading(true);
+      if(!categoryId){
+        alert("Category ID is required for deletion");
+        return;
+      }
+      await api.delete("/category/delete-category", { data: { categoryId } });
+      fetchCategory();
+    }
+    catch(error){
+      console.log("DeleteError:", error.response?.data);
+    }
+  }
   useEffect(() => {
     fetchCategory();
   }, []);
@@ -44,13 +62,12 @@ const CategoryPage = () => {
         </div>
       )}
       {
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {categoryData.map((category) => (
             <div
               key={category._id}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-4 w-[140px] flex flex-col items-center text-center cursor-pointer"
+              className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-4 flex flex-col items-center text-center"
             >
-              {/* Image */}
               <div className="w-24 h-24 flex items-center justify-center mb-3">
                 <img
                   src={category.image}
@@ -59,10 +76,25 @@ const CategoryPage = () => {
                 />
               </div>
 
-              {/* Text */}
-              <p className="text-sm font-medium text-gray-800 text-center whitespace-normal break-all">
+              <p className="text-sm font-semibold text-gray-800 mb-3 text-center w-full break-words truncate">
                 {category.name}
               </p>
+
+              <div className="flex gap-2 w-full">
+                <button
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setOpenEdit(true)}}
+                className="flex-1 bg-green-500 hover:bg-green-600 text-white text-xs py-1.5 rounded-lg">
+                  Edit
+                </button>
+
+                <button 
+                onClick={() => deleteCategory(category._id)}
+                className="flex-1 bg-red-500 hover:bg-red-600 text-white text-xs py-1.5 rounded-lg">
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -70,8 +102,14 @@ const CategoryPage = () => {
       {loading && <Loading />}
 
       {openUploadCategory && (
-        <UploadCategoryModel close={() => setOpenUploadCategory(false)} />
+        <UploadCategoryModel name={"Add Category"} close={() => setOpenUploadCategory(false)} />
       )}
+
+      {
+        openEdit && (
+         <UploadCategoryModel  initialData = {selectedCategory} name={"Edit Category"} close={() => setOpenEdit(false)} />
+        )
+      }
     </section>
   );
 };

@@ -2,7 +2,10 @@ import cloudinary from "../config/claudinary.js";
 
 const uploadImageController = async (req, res) => {
   try {
-    const file = req.file; // multer puts file here
+    console.log("REQ.FILE:", req.file);
+    console.log("BUFFER:", req.file?.buffer);
+    const file = req.file;
+
     if (!file) {
       return res.status(400).json({
         success: false,
@@ -11,38 +14,39 @@ const uploadImageController = async (req, res) => {
     }
 
     console.log("file =>", file.originalname);
+    const cleanName = file.originalname
+      .split(".")[0]
+      .replace(/\s+/g, "_")
+      .replace(/[^a-zA-Z0-9_-]/g, "");
 
-    // Upload directly from buffer
-    const uploadedImage = await cloudinary.uploader.upload_stream(
-      {
-        folder: "categories", // your folder name
-        resource_type: "image",
-        public_id: file.originalname.split(".")[0], // optional: use original filename
-      },
-      (error, result) => {
-        if (error) {
-          console.log("Cloudinary error:", error);
-          return res.status(500).json({
-            success: false,
-            message: "Cloudinary upload failed",
-            error,
-          });
-        }
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: "categories",
+          resource_type: "image",
+          public_id: cleanName,
+        },
+        (error, result) => {
+          if (error) {
+            console.log("Cloudinary error:", error);
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        },
+      );
 
-        console.log("URL being saved:", result.secure_url);
+      stream.end(file.buffer);
+    });
 
-        return res.json({
-          success: true,
-          message: "Image uploaded successfully",
-          data: result.secure_url,
-        });
-      }
-    );
-
-    // Pipe the file buffer to Cloudinary stream
-    uploadedImage.end(file.buffer);
+    return res.json({
+      success: true,
+      message: "Image uploaded successfully",
+      data: result.secure_url,
+    });
   } catch (err) {
     console.log("Error in uploadImageController:", err);
+
     res.status(500).json({
       message: "Internal Server Error",
       error: err.message,

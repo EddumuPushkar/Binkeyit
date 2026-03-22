@@ -13,7 +13,7 @@ userRouter.post("/login", sendOtpController);
 userRouter.post("/resend-otp", resendOtpController);
 userRouter.post("/verify-otp", verifyOtpController);
 userRouter.get("/logout", auth, logoutController);
-userRouter.post("/refresh-token",auth ,refreshController);
+userRouter.post("/refresh-token" ,refreshController);
 userRouter.post("/check-admin",checkAdminController);
 userRouter.post("/me", auth, userController);
 
