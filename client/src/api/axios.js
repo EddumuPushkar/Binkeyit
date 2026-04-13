@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "/api",
+    baseURL: "https://binkeyit-ww2a.onrender.com/api",
     withCredentials: true,
 });
 
