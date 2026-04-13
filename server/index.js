@@ -11,6 +11,10 @@ import userRouter from "./routes/user.router.js";
 import categoryRouter from "./routes/category.route.js";
 import uploadRouter from "./routes/upload.router.js";
 import subCategoryRouter from "./routes/sub_category.router.js";
+import uploadProductRouter from "./routes/uploadProduct.router.js";
+import MyCartRouter from "./routes/MyCart.router.js";
+import addressRouter from "./routes/address.router.js";
+import orderRouter from "./routes/orders.router.js";
 
 const app = express();
 app.use(
@@ -51,6 +55,10 @@ app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/subcategory", subCategoryRouter);
+app.use("/api/product", uploadProductRouter);
+app.use("/api/cart", MyCartRouter);
+app.use("/api/address", addressRouter);
+app.use("/api/orders",orderRouter);
 
 connectDB();
 

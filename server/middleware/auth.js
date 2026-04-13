@@ -24,7 +24,7 @@ export const auth = async (req, res, next) => {
     }
 
     req.user = {
-      id: decode.id,
+      id: decode.id || decode._id,
     };
 
     console.log("User ID from token:", req.user.id); // Debugging line

@@ -1,0 +1,10 @@
+import {Router} from 'express';
+import { AddToCartController, decreaseQuantityController, getCartController, increaseQuantityController,removeFromCartController } from '../controllers/MyCart.controller.js';	
+import {auth} from '../middleware/auth.js';
+const MyCartRouter = Router();
+MyCartRouter.post("/addtocart",auth,AddToCartController);
+MyCartRouter.get("/getmycart",auth, getCartController);
+MyCartRouter.post("/increasequantity",auth, increaseQuantityController);
+MyCartRouter.post("/decreasequantity",auth, decreaseQuantityController);
+MyCartRouter.delete("/removefromcart",auth, removeFromCartController);
+export default MyCartRouter;

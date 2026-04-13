@@ -5,9 +5,10 @@ import user from "../models/user.model.js";
 import { generateAccessToken } from "../utils/generateAccessToken.js";
 import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 import { generateOtp } from "../utils/generateOTP.js";
-import sendEmail from "../config/sendotp.js"; // ✅ correct
+import sendEmail from "../config/sendotp.js"; 
 import { otpTemplate } from "../utils/otpTemplate.js";
 import sendEmailOTP from "../config/sendotp.js";
+import Product from "../models/product.model.js";
 
 //login controller
 export async function sendOtpController(req, res) {
@@ -363,4 +364,37 @@ export async function checkAdminController(req, res) {
             success: false,
         });
     }
+}
+
+export async function searchController(req, res) {
+  try {
+    const { q } = req.query;
+
+    if (!q || !q.trim()) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+      });
+    }
+
+    const escapedQuery = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    const results = await Product.find({
+      name: { $regex: escapedQuery, $options: "i" },
+    })
+      .limit(10)
+      .lean();
+
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      data: [],
+    });
+  }
 }

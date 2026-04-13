@@ -45,7 +45,7 @@ export const AddCategoryController = async (req, res) => {
       });
     }
   } catch (error) {
-    logger.error("Error in AddCategoryController:");
+    // logger.error("Error in AddCategoryController:");
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

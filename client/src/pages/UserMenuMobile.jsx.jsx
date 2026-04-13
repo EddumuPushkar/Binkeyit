@@ -10,58 +10,60 @@ import UserMenu from "../components/UserMenu";
 //UserMenuMobile
 
 function UserMenuMobile() {
-  // const [email, setEmail] = useState("");
-  // const navigate = useNavigate();
+    // const [email, setEmail] = useState("");
+    // const navigate = useNavigate();
 
-  // const token = localStorage.getItem("accessToken");
-  // let id = null;
+    // const token = localStorage.getItem("accessToken");
+    // let id = null;
 
-  // if (token) {
-  //   const decoded = jwtDecode(token);
-  //   id = decoded.id;
-  // }
+    // if (token) {
+    //   const decoded = jwtDecode(token);
+    //   id = decoded.id;
+    // }
 
-  // useEffect(() => {
-  //   if (!id) return;
+    // useEffect(() => {
+    //   if (!id) return;
 
-  //   const token = localStorage.getItem("accessToken");
+    //   const token = localStorage.getItem("accessToken");
 
-  //   api
-  //     .post(
-  //       "/user/me",
-  //       { id },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     )
-  //     .then((res) => setEmail(res.data.email))
-  //     .catch((err) => {
-  //       console.log(err);
+    //   api
+    //     .post(
+    //       "/user/me",
+    //       { id },
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${token}`,
+    //         },
+    //       },
+    //     )
+    //     .then((res) => setEmail(res.data.email))
+    //     .catch((err) => {
+    //       console.log(err);
 
-  //       if (err.response?.status === 401) {
-  //         localStorage.removeItem("accessToken");
-  //         localStorage.removeItem("refreshToken");
-  //         navigate("/");
-  //       }
-  //     });
-  // }, [id]);
+    //       if (err.response?.status === 401) {
+    //         localStorage.removeItem("accessToken");
+    //         localStorage.removeItem("refreshToken");
+    //         navigate("/");
+    //       }
+    //     });
+    // }, [id]);
 
-  // const logoutHandle = async () => {
-  //   await api.get("/user/logout");
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("refreshToken");
-  //   navigate("/");
-  // };
-  // const goto = () => {
-  //   navigate(-1);
-  // };
+    // const logoutHandle = async () => {
+    //   await api.get("/user/logout");
+    //   localStorage.removeItem("accessToken");
+    //   localStorage.removeItem("refreshToken");
+    //   navigate("/");
+    // };
+    // const goto = () => {
+    //   navigate(-1);
+    // };
 
-  return (
-    <div className="min-h-screen bg-gray-50 p-4 relative">
-      <UserMenu/>
-    </div>
-  );
+    return (
+        <div className="min-h-screen bg-gray-50 px-4 py-6 flex justify-center">
+  <div className="w-full max-w-sm">
+    <UserMenu />
+  </div>
+</div>
+    );
 }
 export default UserMenuMobile;

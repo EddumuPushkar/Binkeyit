@@ -4,11 +4,13 @@ import VerifyOtp from "./VerifyOtp.jsx";
 import api from "../api/axios.js";
 import useLoginStore from "../zustand/loginStore.js";
 import { useNavigate } from "react-router-dom";
+import useCartStore from "../zustand/useCartStore.js";
 
 function Login1() {
   const [step, setStep] = useState(1);
   const { email } = useLoginStore();
   const navigate = useNavigate();
+  const { fetchCart } = useCartStore();
 
   const handleOtp = async () => {
   
@@ -28,7 +30,7 @@ function Login1() {
   const handleVerifyOtp = async (otp) => {
     await api
       .post("/user/verify-otp", { email, otp })
-      .then((response) => {
+      .then(async (response) => {
         if (response.data.success === false) {
           alert("otp is wrong");
           return;
@@ -36,6 +38,7 @@ function Login1() {
         if (response.data.success === true) {
           localStorage.setItem("accessToken", response.data.data.accessToken);
           localStorage.setItem("refreshToken", response.data.data.refreshToken);
+          await fetchCart();
           console.log(response);
           navigate("/");
         }
@@ -45,6 +48,7 @@ function Login1() {
         console.log(error);
       });
   };
+  
 
   return (
     <div>

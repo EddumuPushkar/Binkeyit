@@ -36,7 +36,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: null
     },
-    discription:{
+    description:{
         type: String,
         default: "",
     },
@@ -52,4 +52,14 @@ const productSchema = new mongoose.Schema({
 
 },{timestamps: true});
 
-export const product = mongoose.model("product", productSchema);
+//create a text index
+
+productSchema.index({
+    name : "text",
+    description : "text",
+},{
+    name : 10,
+    description : 5
+})
+
+export default mongoose.model("product", productSchema);

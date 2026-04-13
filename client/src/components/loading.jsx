@@ -1,12 +1,19 @@
 import React from "react";
 
-function Loading() {
+function Loading({ fullScreen = false }) {
   return (
-    <div className="flex justify-center items-center h-40">
-      <div role="status">
+    <div
+      className={`
+        flex justify-center items-center
+        ${fullScreen ? "h-screen" : "h-40"}
+        w-full
+      `}
+    >
+      <div role="status" className="flex flex-col items-center gap-2">
+
         <svg
           aria-hidden="true"
-          className="w-10 h-10 text-gray-300 animate-spin fill-green-500"
+          className="w-8 h-8 sm:w-10 sm:h-10 text-gray-300 animate-spin fill-green-500"
           viewBox="0 0 100 101"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -19,7 +26,11 @@ function Loading() {
             fill="currentFill"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
+
+        <span className="text-xs sm:text-sm text-gray-500">
+          Loading...
+        </span>
+
       </div>
     </div>
   );

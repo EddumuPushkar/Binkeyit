@@ -1,6 +1,6 @@
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
+    createBrowserRouter,
+    createRoutesFromElements,
 } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -18,8 +18,10 @@ import CategoryPage from "../pages/CategoryPage.jsx";
 import SubCatageryPage from "../pages/SubCategoryPage.jsx";
 import ProductPage from "../pages/ProductPage.jsx";
 import UploadProductPage from "../pages/UploadProductPage.jsx";
+import ProductListPage from "../pages/productListPage.jsx";
+import ProductDetails from "../pages/ProductDetails.jsx";
+import Checkout from "../pages/CheckoutPage.jsx";
 
-//These all are frontend routes and we will use them in App.jsx file
 
 // const router = createBrowserRouter([
 //     {
@@ -34,33 +36,40 @@ import UploadProductPage from "../pages/UploadProductPage.jsx";
 //     }
 // ])
 const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    createRoutesFromElements(
+        <Route path="/" element={<App />}>
+            <Route path="" element={<Home />} />
 
-      <Route path="" element={<Home />} />
+            <Route path="search" element={<SearchPage />} />
 
-      <Route path="search" element={<SearchPage />} />
+            <Route path="login" element={<Login1 />} />
 
-      <Route path="login" element={<Login1 />} />
+            <Route path="UserMenuMobile" element={<UserMenuMobile />} />
 
-      <Route path="UserMenuMobile" element={<UserMenuMobile />} />
-      
-      <Route path="dashboard" element={<Dashboard />}>
+            <Route path="dashboard" element={<Dashboard />}>
+                <Route path="myorders" element={<Myorders />} />
 
-        <Route path="myorders" element={<Myorders />} />
+                <Route path="address" element={<Address />} />
 
-        <Route path="address" element={<Address />} />
+                <Route path="category" element={<CategoryPage />} />
 
-        <Route path="category" element={<CategoryPage />} />
+                <Route path="sub-category" element={<SubCatageryPage />} />
 
-        <Route path="sub-category" element={<SubCatageryPage />} />
+                <Route path="product" element={<ProductPage />} />
 
-        <Route path="product" element={<ProductPage />} />
+                <Route path="upload-product" element={<UploadProductPage />} />
+            </Route>
 
-        <Route path="upload-product" element={<UploadProductPage />} />
-      </Route>
-    </Route>,
-  ),
+            <Route
+                path=":categorySlug/:subCategorySlug"
+                element={<ProductListPage />}
+            />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/checkout" element={<Checkout />} />
+
+            
+        </Route>,
+    ),
 );
 
 export default router;

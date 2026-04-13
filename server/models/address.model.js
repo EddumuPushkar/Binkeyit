@@ -1,6 +1,15 @@
 import mongoose from "mongoose";
 const addressSchema = new mongoose.Schema({
-    address_line:{
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+    },
+    full_name:{
+        type: String,
+        default: "",
+    },
+    address:{
         type: String,
         default: "",
     },
@@ -17,10 +26,7 @@ const addressSchema = new mongoose.Schema({
     },
     country:{
         type: String,
-    },
-    mobile:{
-        type: Nmber,
-        default: null,
+        default:"India",
     },
     status:{
         type: Boolean,
@@ -28,4 +34,4 @@ const addressSchema = new mongoose.Schema({
     }
 },{timestamps: true});
 
-export const address = mongoose.model("address", addressSchema);
+export default mongoose.model("address", addressSchema);

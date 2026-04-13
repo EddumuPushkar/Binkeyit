@@ -41,6 +41,7 @@ export const AddSubCategoryController = async (req, res) => {
 
 export const getSubCategoryController = async (req, res) => {
     try {
+        console.log("API HIT");
         const data = await subCategoryModel.find().populate("category");
         console.log("POPULATE RUNNING");
         console.log(JSON.stringify(data, null, 2));
@@ -85,7 +86,7 @@ export const editSubCategoryController = async (req, res) => {
         if (!update) {
             return res.status(404).json({
                 success: false,
-                message: "SubCategory not found",   
+                message: "SubCategory not found",
                 error: true,
             });
         }
@@ -139,4 +140,24 @@ export const deleteSubCategoryController = async (req, res) => {
             success: false,
         });
     }
+};
+
+export const getSubCategoryByCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    const subCategories = await subCategoryModel.find({
+      category: categoryId,
+    });
+
+    res.json({
+      success: true,
+      data: subCategories,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
