@@ -11,11 +11,11 @@ function App() {
     const [showCart, setShowCart] = useState(false);
     const fetchCart = useCartStore((state) => state.fetchCart);
     const refreshToken = localStorage.getItem("refreshToken");
-    if (refreshToken) {
-        useEffect(() => {
-          fetchCart();
-        }, [refreshToken]);
-    }
+    useEffect(() => {
+        if (refreshToken) {
+            fetchCart();
+        }
+    }, [refreshToken]);
     return (
         <>
             <Header setShowCart={setShowCart} />
