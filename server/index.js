@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
   res.json({
     message: "Server is running rs" + PORT,
   });
-  res.send("Hello World");
+  //res.send("Hello World");
 });
 
 app.use("/api/user", userRouter);
